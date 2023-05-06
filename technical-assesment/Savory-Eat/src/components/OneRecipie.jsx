@@ -1,28 +1,40 @@
 import React from "react";
-import "../App.css"
+import "../App.css" ;
 import "../index.scss";
+import React ,{ Component } from 'react';
+import { useEffect } from "react";
+import axios from 'axios' ;
 
-const Onerecepie = ({ one }) => {
-  return (
-    <div>
-      <div className="receipe-content-area">
-        <div className="container">
-          <div className="header">
-            <img className="img" src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGl6emF8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="" />
-         
-          </div>
-          <div className="text">
-            <h1 className="food">Pizza</h1>
-            <i > 25 Mins</i>
-            <i > Serves: 5 </i>
 
-            <p className="info">Cheesy pizza is a classic pizza topped with a generous amount of melted cheese. The cheese used can vary from mozzarella to cheddar, provolone, or any other type of cheese that melts well.</p>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  );
-};
 
-export default Onerecepie;
+class OneRecepie extends Component {
+   recepies = () => {
+    const [recepies, setrecepies] = useState([]);
+
+
+  useEffect(() => {
+    axios.get('http://localhost:4000/recepies/:id')
+      .then(res => {
+        setrecepies(res.data);
+      })
+      .catch(err => console.log(err));
+  }, []);
+ 
+ 
+
+  render() { 
+    console.log(recepies);
+    return (
+      <div>
+      {recepies.map(recepie=><li>   {key = recepie.name} {recepie.recepie_Name}{recepie.Cook_Time} 
+      {recepie.Prep_Time} {recepie.Serves} {recepie.categorie} {recepie.recepie_Description} {recepie.recepie_Image}  
+      {recepie.recepie_Ingredients}</li> )}
+
+   </div>
+
+
+    )
+  }
+}}
+ 
+export default OneRecepie;
